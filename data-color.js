@@ -1,4 +1,4 @@
-{
+var dataColor = {
    "Kamphaeng Phet": {
        "hc-key": "th-kp",
       "thaiName": "กำแพงเพชร",
