@@ -1,9 +1,18 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 <style>
-#container {
+#container1 {
 	height: 100%;
-	width: 100%;
+    position: absolute;
+    left: 0%;
+	width: 50%;
+	margin: 0 auto; 
+}
+#container2{
+	height: 100%;
+    position: absolute;
+    right: 0%;
+	width: 50%;
 	margin: 0 auto; 
 }
 .loading {
@@ -14,13 +23,16 @@
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
-<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<!-- <script src="https://code.highcharts.com/maps/highmaps.js"></script> -->
 <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/th/th-all.js"></script>
 <script src="data-color.js"></script>
 <script src="data-point.js"></script>
 
-<div id="container"></div>
+<div id="container1"></div>
+<div id="container2"></div>
 
 <script>
 
@@ -39,7 +51,7 @@ var dataPointReady = Object.values(dataPoint).map((p) => {
 });
 
 // Create the chart
-Highcharts.mapChart('container', {
+Highcharts.mapChart('container1', {
 	chart: {
 		map: 'countries/th/th-all'
 	},
@@ -88,5 +100,42 @@ Highcharts.mapChart('container', {
 			pointFormat: '{point.name}'
 		}
 	}]
+});
+
+var dataColorArray = Object.values(dataColor);
+
+Highcharts.chart('container2', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Forest vs non-forest percentages'
+    },
+    xAxis: {
+        categories: dataColorArray.map(s => s.thaiName)
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Percentage'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    series: [{
+        name: 'Forest Percentage',
+        color: '#d1c23e',
+        data: dataColorArray.map(s => Number(s.forestPct))
+    }, {
+        name: 'Non-forest Percentage',
+        color: '#5b8709',
+        data: dataColorArray.map(s => Number(s.nonforestPct))
+    }]
 });
 </script>
